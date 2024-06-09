@@ -21,5 +21,7 @@ jobs:
     steps:
       - name: Pull Image fom DockerHub
         run: docker pull antxoneguigurenperez/ci-cd-server:latest
+      - name: Delete Old Container
+        run: docker rm -f ci-cd-server-container
       - name: Run Docker Container
         run: docker run -d -p 3300:3300 --name ci-cd-server-container antxoneguigurenperez/ci-cd-server
