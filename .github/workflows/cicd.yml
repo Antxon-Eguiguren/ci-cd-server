@@ -1,0 +1,25 @@
+name: Build and Deploy Server
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        run: actions/checkout@v4
+      - name: Login to DockerHub
+        run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
+      - name: Build Docker Image
+        run: docker build -t ci-cd-server .
+      - name: Publish Image to DockerHub
+        run: docker push ci-cd-server:latest
+  deploy:
+    needs: build
+    runs-on: aws-ec2-server
+    steps:
+      - name: Pull Image fom DockerHub
+        run: docker pull ci-cd-server:latest
+      - name: Run Docker Container
+        run: docker run -d -p 3300:3300 --name ci-cd-server-container ci-cd-server
