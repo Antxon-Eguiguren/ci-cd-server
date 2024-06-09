@@ -17,7 +17,7 @@ jobs:
         run: docker push antxoneguigurenperez/ci-cd-server:latest
   deploy:
     needs: build
-    runs-on: aws-ec2-server
+    runs-on: self-hosted
     steps:
       - name: Pull Image fom DockerHub
         run: docker pull ci-cd-server:latest
