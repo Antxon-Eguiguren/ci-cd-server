@@ -14,7 +14,7 @@ jobs:
       - name: Build Docker Image
         run: docker build -t ci-cd-server .
       - name: Publish Image to DockerHub
-        run: docker push ci-cd-server:latest
+        run: docker push antxoneguigurenperez/ci-cd-server:latest
   deploy:
     needs: build
     runs-on: aws-ec2-server
